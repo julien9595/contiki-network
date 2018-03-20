@@ -5,7 +5,7 @@ endif
 CONTIKI_SOURCEFILES += sht11.c
 APPS=serial-shell
 
-CONTIKI_PROJECT = capteur_led
+CONTIKI_PROJECT = capteur_led_out
 all: $(CONTIKI_PROJECT)
 
 UIP_CONF_IPV6=1

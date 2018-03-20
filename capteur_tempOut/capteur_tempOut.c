@@ -18,7 +18,7 @@
 
 static struct simple_udp_connection broadcast_connection;
 
-PROCESS(send_sensor_info_process, "Print the Sensors Information"); 
+PROCESS(send_sensor_info_process, "capteur temperature out"); 
 AUTOSTART_PROCESSES(&send_sensor_info_process); 
 
 
@@ -39,7 +39,7 @@ receiver(struct simple_udp_connection *c,
          const uint8_t *data,
          uint16_t datalen)
 {
-    printf("[TEMP_IN] Data never for me\n");
+    printf("[TEMP_OUT] Data never for me\n");
     uip_ipaddr_t addr;
     uip_create_linklocal_allnodes_mcast(&addr);
     simple_udp_sendto(&broadcast_connection, data, 2, &addr);
@@ -77,17 +77,17 @@ PROCESS_THREAD(send_sensor_info_process, ev, data) {
 
 		char *temperature;
 		// sprintf(temperature, "t%d", ((sht11_sensor.value(SHT11_SENSOR_TEMP) / 10) - 396) / 10);
-		int t = 2;// ((sht11_sensor.value(SHT11_SENSOR_TEMP) / 10) - 396) / 10;
+		int t = 10;// ((sht11_sensor.value(SHT11_SENSOR_TEMP) / 10) - 396) / 10;
 		
 		if (t > 0 && t < 5) {		
-			temperature = "R";
+			temperature = "RR";
 		} else if (t <= 0) {
-			temperature = "B";
+			temperature = "BB";
 		} else {
-			temperature = "G";
+			temperature = "GG";
 		}
 
-                printf("Sending from capteur_tempIn t : %d, tempIn : %s \n", t, temperature);
+                printf("Sending from capteur_tempOut t : %d, tempOut : %s \n", t, temperature);
 		uip_create_linklocal_allnodes_mcast(&addr);
                 simple_udp_sendto(&broadcast_connection, temperature, 5, &addr);
         }

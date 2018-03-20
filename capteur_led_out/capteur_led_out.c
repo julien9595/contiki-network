@@ -21,8 +21,8 @@
 
 static struct simple_udp_connection broadcast_connection;
 
-PROCESS(capteur_led, "capteur led");
-AUTOSTART_PROCESSES(&capteur_led);
+PROCESS(capteur_led_out, "capteur led out");
+AUTOSTART_PROCESSES(&capteur_led_out);
 
 static void
 receiver(struct simple_udp_connection *c,
@@ -35,9 +35,9 @@ receiver(struct simple_udp_connection *c,
 {
   char* datas = (char*) data;
 
-  if(strlen(datas) == 1) {
+  if(strlen(datas) == 2) {
     // Data from TempIn
-    printf("[LED IN] Received a Temp In : %c\n", datas[0]);
+    printf("[LED OUT] Received a Temp In : %c\n", datas[0]);
     if(datas[0] == 'B') {
 	leds_off(LEDS_ALL);
 	leds_on(LEDS_GREEN);
@@ -49,14 +49,14 @@ receiver(struct simple_udp_connection *c,
 	leds_on(LEDS_BLUE);
     }
   } else {
-    printf("[LED IN] Data not for me\n");
+    printf("[LED OUT] Data not for me\n");
     uip_ipaddr_t addr;
     uip_create_linklocal_allnodes_mcast(&addr);
     simple_udp_sendto(&broadcast_connection, data, datalen, &addr);
   }
 }
 
-PROCESS_THREAD(capteur_led, ev, data)
+PROCESS_THREAD(capteur_led_out, ev, data)
 {
 	static struct etimer periodic_timer;
 	static struct etimer send_timer;

@@ -63,11 +63,11 @@ PROCESS_THREAD(send_sensor_info_process, ev, data) {
                 PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&send_timer));
 
 		char *temperature;
-		int t = rand() % (30 - 10) + 10;
+		int t = rand() % (40);
 		
-		if (t > 0 && t < 5) {		
+		if (t > 30) {		
 			temperature = "RR";
-		} else if (t <= 0) {
+		} else if (t < 10) {
 			temperature = "BB";
 		} else {
 			temperature = "GG";

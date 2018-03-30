@@ -3,8 +3,8 @@
 Un mote représente un capteur de température ou une led. Un dossier est dédié pour chaque mote.
 
 Les leds affichent des couleurs en fonction de la température relevée :
-- bleu si t <= 0
-- rouge si 0 < t < 5
+- bleu si t <= 10
+- rouge si t > 30
 - vert sinon
 
 Le capteur de température intérieur (capteur_tempIn) envoi des string d'un caractère (exemple : "R", "G", "B") et la capteur de température extérieur (capteur_tempOut) envoi des string de deux caractères (exemple : "RR", "GG, "BB"). 
